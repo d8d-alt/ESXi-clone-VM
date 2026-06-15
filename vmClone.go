@@ -107,7 +107,7 @@ func (s *SshCred) runSSH() {
 		"vim-cmd vmsvc/power.getstate $(vim-cmd vmsvc/getallvms | grep " + s.src + " | awk {'print $1'}) | grep 'Powered off' && cp -r " + dataStore + s.sPath + " " + dataStore + s.dst,
 		"vmkfstools -E " + dataStore + "/" + s.dst + "/" + s.sPath + ".vmdk " + dataStore + "/" + s.dst + "/" + s.dst + ".vmdk",
 		"mv " + dataStore + "/" + s.dst + "/" + s.sPath + ".vmx " + dataStore + "/" + s.dst + "/" + s.dst + ".vmx",
-		"sed 's/" + s.sPath + "/" + s.dst + "/g' -i " + dataStore + s.dst + "/" + s.dst + ".vmx ; sed 's/" + s.src + "/" + s.dst + "/g' -i " + dataStore + s.dst + "/" + s.dst + ".vmx",
+		"sed 's/" + s.sPath + "/" + s.dst + "/g;s/" + s.src + "/" + s.dst + "/g' -i " + dataStore + s.dst + "/" + s.dst + ".vmx ",
 		"IFS=$'\n' ; for f in $( find " + dataStore + s.dst + " -type f -name \"*" + s.sPath + "*\") ; do mv $f  $(echo ${f} | sed 's/" + s.sPath + "/" + s.dst + "/g') ; done",
 		"vim-cmd solo/registervm " + dataStore + s.dst + "/" + s.dst + ".vmx",
 	}
