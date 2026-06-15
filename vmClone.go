@@ -116,7 +116,7 @@ func (s *SshCred) runSSH() {
 		defer s.session.Close()
 		err := s.session.Run(v)
 		if err != nil {
-			log.Fatalln("Failed to execute: %s ", v)
+			log.Fatalf("Failed to execute: \"%s\"", v)
 		}
 	}
 }
