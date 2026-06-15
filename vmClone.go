@@ -58,7 +58,7 @@ func (s *SshCred) newSession() {
 	var err error
 	s.session, err = s.client.NewSession()
 	if err != nil {
-		log.Fatalln("Failed to create New session: " + err.Error())
+		log.Fatal("Failed to create New session: " + err.Error())
 	}
 }
 
@@ -76,12 +76,12 @@ func (s *SshCred) withOutpSSH() {
 
 		xout, err := s.session.Output(z)
 		if err != nil {
-			log.Fatalln("Failed to execute cmd fot Output... " + err.Error())
+			log.Fatal("Failed to execute cmd fot Output... " + err.Error())
 		}
 
 		if strs[1] == "checkSnapshot" {
 			if strings.Contains(string(xout), `Snapshot Name`) {
-				log.Fatalln("There is/are snapshots for " + s.src + " , please remove snapshots before to copy machine")
+				log.Fatal("There is/are snapshots for " + s.src + " , please remove snapshots before to copy machine")
 			}
 		}
 		if strs[1] == "sPathSet" {
@@ -124,20 +124,16 @@ func (s *SshCred) runSSH() {
 func main() {
 	var s SshCred
 	if len(passWord) == 0 {
-		fmt.Println("password is not set as PASSWORD environment variable")
-		os.Exit(1)
+		log.Fatal("password is not set as PASSWORD environment variable")
 	}
 	if len(userName) == 0 {
-		fmt.Println("user name is not set as USERNAME environment variable")
-		os.Exit(1)
+		log.Fatal("user name is not set as USERNAME environment variable")
 	}
 	if len(serverName) == 0 {
-		fmt.Println("URL is not set as URL environment variable")
-		os.Exit(1)
+		log.Fatal("URL is not set as URL environment variable")
 	}
 	if len(os.Args) != 3 {
-		fmt.Println("To clone VM, please use: \"<FILE> Source_Name_VM Destination_Name_VM\"")
-		log.Fatal("not enought args !!!! ")
+		log.Fatal("To clone VM, please use: \"<FILE> Source_Name_VM Destination_Name_VM\" \nnot enought args !!!!")
 	}
 	s.src = os.Args[1]
 	s.dst = os.Args[2]
