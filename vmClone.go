@@ -108,7 +108,7 @@ func (s *SshCred) runSSH() {
 		"vmkfstools -E " + dataStore + "/" + s.dst + "/" + s.sPath + ".vmdk " + dataStore + "/" + s.dst + "/" + s.dst + ".vmdk",
 		"mv " + dataStore + "/" + s.dst + "/" + s.sPath + ".vmx " + dataStore + "/" + s.dst + "/" + s.dst + ".vmx",
 		"sed 's/" + s.sPath + "/" + s.dst + "/g;s/" + s.src + "/" + s.dst + "/g' -i " + dataStore + s.dst + "/" + s.dst + ".vmx ",
-		"IFS=$'\n' ; for f in $( find " + dataStore + s.dst + " -type f -name \"*" + s.sPath + "*\") ; do mv $f  $(echo ${f} | sed 's/" + s.sPath + "/" + s.dst + "/g') ; done",
+		"IFS=$'\n' ; for f in $( find " + dataStore + s.dst + " -type f -name \"*" + s.sPath + "*\") ; do mv $f  $( sed 's/" + s.sPath + "/" + s.dst + "/g' <<<${f} ) ; done",
 		"vim-cmd solo/registervm " + dataStore + s.dst + "/" + s.dst + ".vmx",
 	}
 	for _, v := range comm {
